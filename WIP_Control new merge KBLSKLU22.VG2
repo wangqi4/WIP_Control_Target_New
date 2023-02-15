@@ -1,0 +1,1027 @@
+"VERSION:","1.0"
+"OUTERJOIN:","Yes"
+"UNIONSORT:","No"
+"DISTINCT:","No"
+"QUOTECSV:","No"
+"CTMISSJOIN:","No"
+"EMPTYNULL:","No"
+"TERMINAL:","Yes"
+"OUTENABLED:","Yes"
+"INLINE_VIEW:",""
+"LASTPACKEDEXE:",""
+"EXCEL:","Full_Lot.csv"
+"ROW:","No"
+"EMBED:","Y"
+"INCNESTUTIL:","Y"
+"QUERYROWS:","0"
+"JOINROWS:","0"
+"FILTERROWS:","0"
+"COL_ID_COUNTER:","7"
+"CHART_COUNTER:","7"
+"PIVOTMODE:","0"
+"SQLITESPECIALHDRS:","1"
+"LEGACYPIVOTHDRS:","1"
+"USEPYENGINE:","Y"
+"GLOBALS_FILE:",""
+"GLOBAL_VARS:","-1"
+"<---- New Query ---->","5:3:UTILITIES"
+"UTILITIES:","U->Copy:Y@EXEDIR@\SPFCopy.bat <~>D:\User\MI\WIP Control Config\ConWIP Input.csv,D:\User\MI\WIP Control Config\Finish ConWIP Input.csv<~> <~>.\<~> <~>N<~>"
+"UTILITIESDESC:","Copy Files/Folders"
+"<---- New Query ---->","5:3:UTILITIES"
+"UTILITIES:","U->SQL:Y<OPTIONS><{><}>/NODE=CD.[A48_PROD_21.].MARS<{><}>/UN=titan<{><}>/PW=titan<{><}>/OLEDB=SQLPlus<{><}>/ENGINE=VA<{><}>/WORKDIR=.\<{><}>/T=Yes<{><}>/CSV=Full_Lot.csv<{><}>/HEADERS=lot,operation,quantity,onhold,prodgroup3,Grouping,Area<{><}>/INSTANCE=14743<{><}>/PROMPT-TEXT=Step 3.0-a0. Fetching MARS Data<{><}>/RECORD=WIP_Lot_Status_v2<{><}>/HADOOP_SERVER_DEFAULT=ATD_ATM2.HADOOP@HADOOP@atdphadapp3.ch.intel.com@@@<{><}></OPTIONS><{><}><{><}><{><}><{><}><{><}><{><}><{><}><{><}><{><}><{><}><{><}><{><}><{><}><{><}><{><}><{><}>/*BEGIN SQL*/<{><}>SELECT <{><}>          lot AS lot<{><}>         ,operation AS operation<{><}>         ,quantity AS quantity<{><}>         ,onhold AS onhold<{><}>         ,prodgroup3 AS prodgroup3<{><}>         ,Grouping AS Grouping     <{><}>         ,case <{><}>when  Grouping = 'Assy' <{><}>and operation in ('2172','1863','7460','5001','7462','7463','7465','7464','1293','1245','0011') <{><}>THEN 'A2'<{><}>when  Grouping = 'Assy' <{><}>and  operation in ('7721','7722','7723','7725','6881','6883','6885','6889','7726') <{><}>THEN 'A3'<{><}>when  Grouping = 'Assy' <{><}>and  operation not in ('9997','2172','1863','7460','5001','7462','7463','7465','7464','1293','1245','0011', '7721','7722','7723','7725','6881','6883','6885','6889','7726')<{><}> then 'A1'<{><}>when  Grouping = 'FPO'<{><}>and  operation in <{><}>  ('7310','7297','6970','6508','6452') <{><}>then 'A4'<{><}>when  Grouping = 'FPO'<{><}>and  operation in <{><}>  ('7757','6197','6511','6557') <{><}>then 'A4_2'<{><}>when  Grouping = 'FPO'<{><}>and  operation in <{><}>('7485','1680','7356','7333','7354','7474','7976','2050','7906') <{><}>then 'A5'<{><}>else 'A6'<{><}>end<{><}><{><}><{><}><{><}><{><}> AS Area<{><}>FROM<{><}>(<{><}>SELECT <{><}>          lot AS lot<{><}>         ,operation AS operation<{><}>         ,quantity AS quantity<{><}>         ,onhold AS onhold<{><}>         ,prodgroup3 AS prodgroup3<{><}>         ,Grouping AS Grouping<{><}>FROM<{><}>(<{><}>SELECT  <{><}>          f0.lot AS lot<{><}>         ,f0.operation AS operation<{><}>         ,f0.qty1 AS quantity<{><}>         ,f0.onhold AS onhold<{><}>         ,p.prodgroup3 AS prodgroup3<{><}>         ,case when  f0.lot like '8%' then 'Assy' else 'FPO' end AS Grouping<{><}>FROM <{><}>               @[]@F_Lot f0<{><}>INNER JOIN @[]@F_Product p ON p.product = f0.product AND p.facility = f0.facility<{><}>WHERE f0.owner <> 'EMPTYFOUP'<{><}> AND      f0.terminated = 'N' <{><}> AND      f0.qty1 > 0 <{><}> AND      f0.src_erase_date Is Null  <{><}> AND      f0.owner = 'PROD' <{><}> AND      f0.product not like ' %'<{><}><{><}> AND      f0.operation Not In ('1209'<{><}>,'2209'<{><}>,'0589'<{><}>,'0599'<{><}>,'1255'<{><}>,'9992'<{><}>,'0699'<{><}>,'0614'<{><}>,'1210'<{><}>,'1204'<{><}>,'0971'<{><}>,'2170'<{><}>,'1208'<{><}>,'7290'<{><}>,'7600'<{><}>,'9021'<{><}>,'9022'<{><}>,'7200'<{><}>,'7572'<{><}>,'7084'<{><}>,'7571'<{><}>,'7060'<{><}>,'8604'<{><}>,'7980'<{><}>,'7981'<{><}>,'7983'<{><}>,'7899'<{><}>,'3700'<{><}>,'3200'<{><}>,'0608'<{><}>,'1793') <{><}>)<{><}>)<{><}>/*END SQL*/<{><}><{><}>"
+"UTILITIESDESC:","Run an SQL Script"
+"<---- New Query ---->","5:3:UTILITIES"
+"UTILITIES:","U->Write-File:YFile.tab<SOF><{><}>AREA<{><}>A1<{><}>A2<{><}>A3<{><}>A4<{><}>A4_2<{><}>A5<{><}>A6"
+"UTILITIESDESC:","Write Text to a file. Optionally use <EOF> to mark end of file"
+"<---- New Query ---->","5:3:UTILITIES"
+"UTILITIES:","U->Smart-Append:Y@EXEDIR@\SmartAppend.va <~>Full_Lot.csv<~> <~>File.tab<~> <~><~> <~><~> <~><~> <~>N<~> <~>N<~> <~><~> <~>Version 3<~> <~><<<spf-hadoop-server>>><~> <~><~>"
+"UTILITIESDESC:","Smart-Append Data"
+"<---- New Query ---->","5:3:UTILITIES"
+"UTILITIES:","U->Pre/Post Query:Y{Full_Lot_Pivot}</@#;>Full_Lot_Pivot"
+"UTILITIESDESC:","Pre/Post Query"
+"<---- New Query ---->","5:3:UTILITIES"
+"UTILITIES:","U->Pre/Post Query:Y{PrePostQuery_8}</@#;>Full_Lot_Pivot_Onhold"
+"UTILITIESDESC:","Pre/Post Query"
+"<---- New Query ---->","5:3:UTILITIES"
+"UTILITIES:","U->Pre/Post Query:Y{Assy}</@#;>Assy"
+"UTILITIESDESC:","Pre/Post Query"
+"<---- New Query ---->","5:3:UTILITIES"
+"UTILITIES:","U->Pre/Post Query:Y{Assy_0}</@#;>Assy_0"
+"UTILITIESDESC:","Pre/Post Query"
+"<---- New Query ---->","5:3:UTILITIES"
+"UTILITIES:","U->Pre/Post Query:Y{Finish}</@#;>Finish"
+"UTILITIESDESC:","Pre/Post Query"
+"<---- New Query ---->","5:3:UTILITIES"
+"UTILITIES:","U->Pre/Post Query:Y{Finish_0}</@#;>Finish_0"
+"UTILITIESDESC:","Pre/Post Query"
+"<---- New Query ---->","5:3:UTILITIES"
+"UTILITIES:","U->Pre/Post Query:Y{Cure Data}</@#;>New Section"
+"UTILITIESDESC:","Pre/Post Query"
+"<---- New Query ---->","5:3:UTILITIES"
+"UTILITIES:","U->Pre/Post Query:Y{EPXY AND CURE DATA}</@#;>EPXY AND CURE DATA"
+"UTILITIESDESC:","Pre/Post Query"
+"<---- New Query ---->","5:3:UTILITIES"
+"UTILITIES:","U->HTML-Report:YYN18348"
+"UTILITIESDESC:","Create an HTML Report"
+"HTML-BEGIN",""
+"HTML-SCRIPT"
+"HTML-REPCSS:MYCSS1</@#;>WIP_Control</@#;>"
+"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Type<\\>Key<\\>COL1<\\>COL2<\\>COL3<\\>COL4<\\>COL5<\\>COL6<\\>COL7<\\>COL8"
+"TYPE<\\>CSS<\\><\\><\\><\\><\\><\\><\\><\\>"
+"CSS<\\>WIP_Control.css<\\><\\><\\><\\><\\><\\><\\><\\>"
+"FORMAT<\\>Column-Headers<\\>background-color:#dbd9c0<\\>color:#444<\\>font-family:arial<\\>font-size:12<\\>font-style:normal<\\>font-weight:bold<\\>text-align:left<\\>text-decoration:normal<\\>vertical-align:middle"
+"FORMAT<\\>Column-Data<\\>background-color:white<\\>color:#444<\\>font-family:arial<\\>font-size:12<\\>font-style:normal<\\>text-align:left<\\>vertical-align:middle<\\>"
+"FORMAT<\\>Column-Alt-Row<\\>background-color:#f7f5dc<\\>color:#333<\\>font-family:arial<\\>font-size:12<\\>font-style:normal<\\>text-align:left<\\>vertical-align:middle<\\>"
+"FORMAT<\\>At-Top-of-Report<\\>background-color:white<\\>color:#444<\\>font-family:arial<\\>font-size:15<\\>font-style:normal<\\>font-weight:bold<\\>text-align:center<\\>vertical-align:middle"
+"FORMAT<\\>At-Top-of-Col1<\\>background-color:white<\\>color:#444<\\>font-family:arial<\\>font-size:12<\\>font-style:normal<\\>font-weight:bold<\\>text-align:left<\\>vertical-align:middle"
+"FORMAT<\\>At-Top-of-Col2<\\>background-color:white<\\>color:#444<\\>font-family:arial<\\>font-size:12<\\>font-style:normal<\\>font-weight:bold<\\>text-align:left<\\>vertical-align:middle"
+"FORMAT<\\>At-Top-of-Col3<\\>background-color:white<\\>color:#444<\\>font-family:arial<\\>font-size:12<\\>font-style:normal<\\>font-weight:bold<\\>text-align:left<\\>vertical-align:middle"
+"FORMAT<\\>COLUMN-BORDER<\\>border-color:#cc9<\\>border-collapse:collapse<\\>border-style:solid<\\>border-width:1px<\\>border-spacing:4px<\\><\\><\\>"
+"HTML-REPORT-SPEC-END"
+"HTML-REPORT:MYREPORT3</@#;>Assy</@#;>"
+"
+
+
+
+
+
+
+
+
+
+
+
+
+Type<\\>Key<\\>COL1<\\>COL2<\\>COL3<\\>COL4<\\>COL5<\\>COL6<\\>COL7<\\>COL8<\\>COL9<\\>COL10<\\>COL11<\\>COL12"
+"TYPE<\\>HTML<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"INPUT-FILE<\\>Assy.csv<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"OUTPUT-FILE<\\>SQLPathFinder.htm<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"CSS<\\>sqlpathfinder_style_1.css<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"COLSPAN<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"DRILLDOWN<\\>N<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"DYNAMICSORT<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"DYNAMICFILTER<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"ATTOPDRILLDOWN<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"NOPREPROCESS<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"AT-TOP-OF-REPORT<\\><\\>TCB/CAM to Constraint Module <\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"COLUMN-DATA<\\><\\>prodgroup3<\\>constrain<\\>constrain capacity (k/shift)<\\>conwip target<\\>lower limit<\\>actual<\\>test<\\>test_wip<\\>actual_onhold<\\>comments<\\><\\>"
+"COLUMN-HEADERS<\\><\\>PROD<\\>Constrain<\\>ConstrainCapacity<\\>UpperLimit<\\>LowerLimit<\\>Available WIP(Exclude HoldLot)<\\>WIP Test<\\>Status<\\>Onhold Qty<\\>Comments<\\><\\>"
+"COLUMN-ALIGNMENT<\\><\\>middle-left<\\>middle-left<\\>middle-left<\\>middle-left<\\>middle-left<\\>middle-left<\\>middle-left<\\>middle-left<\\>middle-left<\\>middle-left<\\><\\>"
+"COLUMN-FORMAT<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"COLUMN-RULE1<\\>test<\\>test<\\>EQS<\\>Healthy<\\>background-color:green<\\>color:white<\\>font-style:normal<\\>font-weight:bold<\\><\\><\\><\\><\\>"
+"COLUMN-RULE2<\\>test<\\>test<\\>EQS<\\>Underbuild<\\>background-color:#0080ff<\\>color:white<\\>font-style:normal<\\>font-weight:bold<\\><\\><\\><\\><\\>"
+"COLUMN-RULE3<\\>test<\\>test<\\>EQS<\\>Overbuild<\\>background-color:red<\\>color:white<\\>font-style:normal<\\>font-weight:bold<\\><\\><\\><\\><\\>"
+"HTML-REPORT-SPEC-END"
+"HTML-REPORT:MYREPORT5</@#;>Finish</@#;>"
+"
+
+
+
+
+
+
+
+
+
+
+
+
+Type<\\>Key<\\>COL1<\\>COL2<\\>COL3<\\>COL4<\\>COL5<\\>COL6<\\>COL7<\\>COL8<\\>COL9<\\>COL10<\\>COL11<\\>COL12"
+"TYPE<\\>HTML<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"INPUT-FILE<\\>Finish.csv<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"OUTPUT-FILE<\\>SQLPathFinder.htm<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"CSS<\\>sqlpathfinder_style_1.css<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"COLSPAN<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"DRILLDOWN<\\>N<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"DYNAMICSORT<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"DYNAMICFILTER<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"ATTOPDRILLDOWN<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"NOPREPROCESS<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"AT-TOP-OF-REPORT<\\><\\>Finish<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"COLUMN-DATA<\\><\\>prodgroup3<\\>constrain<\\>future constrain capacity (k/shift)<\\>target<\\>lower limit<\\>actual<\\>test<\\>actual_onhold<\\>comments<\\><\\><\\>"
+"COLUMN-HEADERS<\\><\\>PROD<\\>Constrain<\\>Constrain Capacity<\\>UpperLimit<\\>LowerLimit<\\>Available WIP(Exclude HoldLot)<\\>WIP Test<\\>Onhold Qty<\\>Comments<\\><\\><\\>"
+"COLUMN-ALIGNMENT<\\><\\>middle-left<\\>middle-left<\\>middle-left<\\>middle-left<\\>middle-left<\\>middle-left<\\>middle-left<\\>middle-left<\\>middle-left<\\><\\><\\>"
+"COLUMN-FORMAT<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"COLUMN-RULE1<\\>test<\\>test<\\>EQS<\\>Healthy<\\>background-color:green<\\>color:white<\\>font-style:normal<\\>font-weight:bold<\\><\\><\\><\\><\\>"
+"COLUMN-RULE2<\\>test<\\>test<\\>EQS<\\>Underbuild<\\>background-color:#0080ff<\\>color:white<\\>font-style:normal<\\>font-weight:bold<\\><\\><\\><\\><\\>"
+"COLUMN-RULE3<\\>test<\\>test<\\>EQS<\\>Overbuild<\\>background-color:red<\\>color:white<\\>font-style:normal<\\>font-weight:bold<\\><\\><\\><\\><\\>"
+"HTML-REPORT-SPEC-END"
+"HTML-REPORT:MYREPORT6</@#;>DSA</@#;>"
+"
+
+
+
+
+
+
+
+
+
+
+
+
+
+Type<\\>Key<\\>COL1<\\>COL2<\\>COL3<\\>COL4<\\>COL5<\\>COL6<\\>COL7<\\>COL8<\\>COL9<\\>COL10<\\>COL11<\\>COL12"
+"TYPE<\\>HTML<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"INPUT-FILE<\\>DSA_Cure_WIP_Monitor.tab<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"OUTPUT-FILE<\\>SQLPathFinder.htm<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"CSS<\\>sqlpathfinder_style_1.css<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"COLSPAN<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"DRILLDOWN<\\>N<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"DYNAMICSORT<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"DYNAMICFILTER<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"ATTOPDRILLDOWN<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"NOPREPROCESS<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"SORT<\\>location<\\>Asc<\\>Y<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"SORT<\\>operation<\\>Asc<\\>Y<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"SORT<\\>wip_lower_limit<\\>Asc<\\>Y<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"SORT<\\>wip_max<\\>Asc<\\>Y<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"SORT<\\>lot<\\>Asc<\\>Y<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"AT-TOP-OF-REPORT<\\><\\>DSA_Cure_WIP_Monitor_Report<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"COLUMN-DATA<\\><\\>location<\\>operation<\\>wip_lower_limit<\\>wip_max<\\>lot<\\>qty_ku<\\><\\><\\><\\><\\><\\>"
+"COLUMN-HEADERS<\\><\\>Location<\\>Operation<\\>Wip Lower Limit<\\>Wip Max<\\>Current Lot Qty<\\>Qty Ku<\\><\\><\\><\\><\\><\\>"
+"COLUMN-ALIGNMENT<\\><\\>middle-left<\\>middle-left<\\>middle-left<\\>middle-left<\\>middle-left<\\>middle-left<\\><\\><\\><\\><\\><\\>"
+"COLUMN-FORMAT<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"COLUMN-RULE1<\\>lot<\\>lot<\\>GT<\\>89<\\>background-color:red<\\>color:white<\\>font-style:normal<\\>font-weight:bold<\\><\\><\\><\\><\\>"
+"COLUMN-RULE2<\\>lot<\\>lot<\\>GT<\\>75<\\>background-color:orange<\\>color:white<\\>font-style:normal<\\>font-weight:bold<\\><\\><\\><\\><\\>"
+"COLUMN-RULE3<\\>lot<\\>lot<\\>GT<\\>60<\\>background-color:lightgreen<\\>color:white<\\>font-style:normal<\\>font-weight:bold<\\><\\><\\><\\><\\>"
+"HTML-REPORT-SPEC-END"
+"HTML-REPORT:MYREPORT7</@#;>cure_Epoxy</@#;>"
+"
+
+
+
+
+
+
+
+
+
+
+
+
+
+Type<\\>Key<\\>COL1<\\>COL2<\\>COL3<\\>COL4<\\>COL5<\\>COL6<\\>COL7<\\>COL8<\\>COL9<\\>COL10<\\>COL11<\\>COL12"
+"TYPE<\\>HTML<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"INPUT-FILE<\\>EPX_Cure_WIP_Monitor.tab<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"OUTPUT-FILE<\\>SQLPathFinder.htm<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"CSS<\\>sqlpathfinder_style_1.css<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"COLSPAN<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"DRILLDOWN<\\>N<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"DYNAMICSORT<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"DYNAMICFILTER<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"ATTOPDRILLDOWN<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"NOPREPROCESS<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"SORT<\\>location<\\>Asc<\\>Y<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"SORT<\\>operation_1<\\>Asc<\\>Y<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"SORT<\\>wip_lower_limit<\\>Asc<\\>Y<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"SORT<\\>wip_max<\\>Asc<\\>Y<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"SORT<\\>lot<\\>Asc<\\>Y<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"AT-TOP-OF-REPORT<\\><\\>EPX_Cure_WIP_Minitor_Report<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"COLUMN-DATA<\\><\\>location<\\>operation_1<\\>wip_lower_limit<\\>wip_max<\\>lot<\\>qty_ku<\\><\\><\\><\\><\\><\\>"
+"COLUMN-HEADERS<\\><\\>Location<\\>Operation<\\>Wip Lower Limit<\\>Wip Max<\\>Current Lot Qty<\\>Qty Ku<\\><\\><\\><\\><\\><\\>"
+"COLUMN-ALIGNMENT<\\><\\>middle-left<\\>middle-left<\\>middle-left<\\>middle-left<\\>middle-left<\\>middle-left<\\><\\><\\><\\><\\><\\>"
+"COLUMN-FORMAT<\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\><\\>"
+"COLUMN-RULE1<\\>lot<\\>lot<\\>GT<\\>59<\\>background-color:red<\\>color:white<\\>font-style:normal<\\>font-weight:bold<\\><\\><\\><\\><\\>"
+"COLUMN-RULE2<\\>lot<\\>lot<\\>GT<\\>50<\\>background-color:orange<\\>color:white<\\>font-style:normal<\\>font-weight:bold<\\><\\><\\><\\><\\>"
+"COLUMN-RULE3<\\>lot<\\>lot<\\>GT<\\>45<\\>background-color:lightgreen<\\>color:white<\\>font-style:normal<\\>font-weight:bold<\\><\\><\\><\\><\\>"
+"HTML-REPORT-SPEC-END"
+"HTML-CREATE WINDOW:WIN4</@#;>0@@@WIP_Control.htm@@@WIP_Control.css@@@E->Y@@@RR->NO@@@B->N@@@EM-A->@@@EM-S->@@@SEC->Y@@@Text:1:white<:>black<:>Y<:>N<:>N<:>verdana<:>12<:>Left<:>WIP control table @<ts>|Text:1:white<:>black<:>Y<:>N<:>N<:>verdana<:>8<:>Left<:>Table refresh every 30mins.Action take if status is not <~>Healthy<~><br>1.	 TCB/CAM to Constraint module:  SI call product MI to check why and action needed<br>2.	 Finish:  SFGI super have decision making to control the pace<br>3.              Operation 1235 included 1429 WIP.<br>4.              Operation 1235 can over WIP max if 1173 WIP less than 60 lots.|MYREPORT3|MYREPORT6|MYREPORT7|Text:1:white<:>black<:>Y<:>N<:>N<:>verdana<:>8<:>Left<:>WIPactual:<br>1.	TCB/CAM to Constraint Module = TCB/CAM out ~ constraint total WIP<br>2.	Finish = SFGI Out  ~ constraint  total WIP<br><~>Upper limit<~> & <~>Lower Limit<~> = Constrain capacity * expected CT<br>3.	WIP_TEST include 7721','7722','7723','7725','6881','6883','6885','6889','7726' total WIP.@@@</@#;>Win4</@#;>Window Title or Email Subject"
+"HTML-END"
+"<---- New Query ---->","5:3:UTILITIES"
+"UTILITIES:","U->Append:Y@EXEDIR@\AppendFile.va <~>Assy.csv<~> <~>Finish.csv<~> <~><~>"
+"UTILITIESDESC:","Append Files"
+"<---- New Query ---->","5:3:UTILITIES"
+"UTILITIES:","U->Pre/Post Query:Y{conwipsum}</@#;>conwipsum"
+"UTILITIESDESC:","Pre/Post Query"
+"<---- New Query ---->","5:3:UTILITIES"
+"UTILITIES:","U->Append:Y@EXEDIR@\AppendFile.va <~>\\cdsvmfg001\MI\Wip_chart_record\conWipSum.csv<~> <~>conWipf.csv<~> <~><~>"
+"UTILITIESDESC:","Append Files"
+"<---- New Query ---->","5:3:UTILITIES"
+"UTILITIES:","U->Copy:Y@EXEDIR@\SPFCopy.bat <~>WIP_Control.htm,WIP_Control.css<~> <~>D:\User\WebSites\WebShareReport\WIP Control Table\<~> <~>N<~>"
+"UTILITIESDESC:","Copy Files/Folders"
+"<---- New Query ---->","5:3:UTILITIES"
+"UTILITIES:","U->SharePoint:Y@EXEDIR@\PublishToSP.va <~>WIP_Control.htm,WIP_Control.css<~> <~>https://content.sp2019.intel.com/sites/CD/CDATwebshare/MMS/Wip Chart/<~> <~><~> <~><~>"
+"UTILITIESDESC:","Publish to SharePoint"
+"<---- New Query ---->","-99"
+"QUERYGRID:"
+"JOINGRID:"
+"FILTERGRID:"
+/START_EMBED_ALL
+/EMBED=VG2;Full_Lot_Pivot
+"VERSION:","1.0"
+"OUTERJOIN:","Yes"
+"UNIONSORT:","No"
+"DISTINCT:","No"
+"QUOTECSV:","No"
+"CTMISSJOIN:","No"
+"EMPTYNULL:","No"
+"TERMINAL:","Yes"
+"OUTENABLED:","Yes"
+"INLINE_VIEW:",""
+"LASTPACKEDEXE:",""
+"EXCEL:","Full_Lot_Pivot.csv"
+"ROW:","No"
+"EMBED:","Y"
+"INCNESTUTIL:","Y"
+"QUERYROWS:","6"
+"JOINROWS:","0"
+"FILTERROWS:","2"
+"COL_ID_COUNTER:","6"
+"CHART_COUNTER:","0"
+"PIVOTMODE:","0"
+"JOINHADOOP:","0"
+"SQLITESPECIALHDRS:","1"
+"LEGACYPIVOTHDRS:","1"
+"USEPYENGINE:","N"
+"GLOBALS_FILE:",""
+"GLOBAL_VARS:","-1"
+"<---- New Query ---->","1:5:SQL"
+"TABLEGRID:","1"
+"","Full_Lot.csv a0",""
+"MARSNODE:","Default"
+"ARIESNODE:","Default"
+"OASYSNODE:","Default"
+"ARIESCLASSNODE:","ATD.ARIES"
+"OTHERNODE:","TEXT (SQLite)"
+"MARSSCHEMA:","Default"
+"DATABASETYPE:","SQLite"
+"SINGLENODE:","TEXT (SQLite)"
+"SINGLESCHEMA:","N/A"
+"PROMPT-TEXT:","Fetching Text (SQLite) Data"
+"DISTINCT:","No"
+"ROW:","No"
+"EXCEL:","No"
+"CT_MISS_VAL:","No"
+"PREPROCESS_CSV:","No"
+"NOHDRS:","No"
+"CARTESIAN:","No"
+"<---- New Query ---->","-99"
+"QUERYGRID:"
+"a0.operation","operation","N","None","None","Row","c","","csv","SQL->a0.[operation]","col1"
+"a0.lot","lot","N","None","None","Row","c","","csv","SQL->a0.[lot]","col2"
+"f(x)->quantity","quantity","Y","None","Sum","Value","f","quantity","csv","SQL->CASE WHEN a0.[quantity] = '' THEN NULL ELSE CAST (a0.[quantity] AS REAL) END","col3"
+"f(x)->CASE WHEN a0.[prodgroup3] in  ('KBLU22','SKLU22') THEN 'SKL/KBLU22' ELSE CAST (a0.[prodgroup3] AS TEXT) END","prodgroup3","Y","None","None","Row","C","***prodgroup3","csv","SQL->CASE WHEN a0.[prodgroup3] in  ('KBLU22','SKLU22') THEN 'SKL/KBLU22' ELSE CAST (a0.[prodgroup3] AS TEXT) END","col4"
+"a0.grouping","grouping","N","None","None","Row","c","","csv","SQL->a0.[grouping]","col5"
+"a0.area","area","Y","None","None","Header","c","","csv","SQL->a0.[area]","col6"
+"JOINGRID:"
+"FILTERGRID:"
+"-- AND","","a0.prodgroup3","In Group",".\ConWIP Input.csv:1. Prod","","","c","csv","SQL->a0.[prodgroup3]",""
+"-- OR","","a0.prodgroup3","In Group",".\Finish ConWIP Input.csv:1. Prod","","","c","csv","SQL->a0.[prodgroup3]",""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/END_EMBED
+/EMBED=VG2;Assy
+"VERSION:","1.0"
+"OUTERJOIN:","Yes"
+"UNIONSORT:","No"
+"DISTINCT:","No"
+"QUOTECSV:","No"
+"CTMISSJOIN:","No"
+"EMPTYNULL:","No"
+"TERMINAL:","Yes"
+"OUTENABLED:","Yes"
+"INLINE_VIEW:",""
+"LASTPACKEDEXE:",""
+"EXCEL:","Assy Raw.csv"
+"ROW:","No"
+"EMBED:","Y"
+"INCNESTUTIL:","Y"
+"QUERYROWS:","18"
+"JOINROWS:","2"
+"FILTERROWS:","0"
+"COL_ID_COUNTER:","20"
+"CHART_COUNTER:","0"
+"PIVOTMODE:","0"
+"SQLITESPECIALHDRS:","1"
+"LEGACYPIVOTHDRS:","1"
+"USEPYENGINE:","N"
+"GLOBALS_FILE:",""
+"GLOBAL_VARS:","-1"
+"<---- New Query ---->","1:5:SQL"
+"TABLEGRID:","3"
+"","ConWIP Input.csv a1",""
+"","Full_Lot_Pivot.csv a0",""
+"","Full_Lot_Pivot_onhold.csv a2",""
+"MARSNODE:","Default"
+"ARIESNODE:","Default"
+"OASYSNODE:","Default"
+"ARIESCLASSNODE:","ATD.ARIES"
+"OTHERNODE:","TEXT (SQLite)"
+"MARSSCHEMA:","Default"
+"DATABASETYPE:","SQLite"
+"SINGLENODE:","TEXT (SQLite)"
+"SINGLESCHEMA:","N/A"
+"PROMPT-TEXT:","Fetching Text (SQLite) Data"
+"DISTINCT:","No"
+"ROW:","No"
+"EXCEL:","No"
+"CT_MISS_VAL:","No"
+"PREPROCESS_CSV:","No"
+"NOHDRS:","No"
+"CARTESIAN:","No"
+"<---- New Query ---->","-99"
+"QUERYGRID:"
+"a0.prodgroup3","prodgroup3","Y","None","None","Row","c","","csv","SQL->a0.[prodgroup3]","col1"
+"a0.a1","a1","Y","None","None","Row","c","","csv","SQL->a0.[a1]","col2"
+"a0.a2","a2","Y","None","None","Row","c","","csv","SQL->a0.[a2]","col3"
+"a0.a3","a3","Y","None","None","Row","c","","csv","SQL->a0.[a3]","col4"
+"a1.prod","prod","Y","None","None","Row","c","","csv","SQL->a1.[prod]","col5"
+"a1.constrain","constrain","Y","None","None","Row","c","","csv","SQL->a1.[constrain]","col6"
+"a1.wip index","wip index","Y","None","None","Row","c","","csv","SQL->a1.[wip index]","col7"
+"a1.constrain capacity (k/shift)","constrain capacity (k/shift)","Y","None","None","Row","c","","csv","SQL->a1.[constrain capacity (k/shift)]","col8"
+"f(x)->conwip target","conwip target","Y","None","None","Row","n","conwip target","csv","SQL->CASE WHEN a1.[conwip target] = '' THEN NULL ELSE CAST (a1.[conwip target] AS INTEGER) END","col9"
+"f(x)->CASE WHEN  {constrain}  = 'BA' THEN  {a1}  /1000!!!!!when  {constrain} = 'BI' then (  {a1} +  {a2} )/1000!!!!!when  {constrain} in ('HDMX', 'V8') then ({a1} +  {a2} +  {a3} )/1000!!!!!!!!!!ELSE null END","Actual","Y:2","None","None","Row","F","***","csv","SQL->CASE WHEN  {col6}  = 'BA' THEN  {col2}  /1000!!!!!when  {col6} = 'BI' then (  {col2} +  {col3} )/1000!!!!!when  {col6} in ('HDMX', 'V8') then ({col2} +  {col3} +  {col4} )/1000!!!!!!!!!!ELSE null END","col10"
+"a1.lower limit","lower limit","Y","None","None","Row","c","","csv","SQL->a1.[lower limit]","col11"
+"f(x)->{a3}/1000.0!!!!!","TEST_WIP","Y:2","None","None","Row","F","***","csv","SQL->{col4}/1000.0!!!!!","col14"
+"a1.comments","comments","Y","None","None","Row","c","","csv","SQL->a1.[comments]","col15"
+"a2.prodgroup3","prodgroup3_1","P","None","None","Row","c","","csv","SQL->a2.[prodgroup3]","col19"
+"f(x)->IFNULL(CASE WHEN a2.[a1] = '' THEN NULL ELSE CAST (a2.[a1] AS REAL) END,0)","a1_onhold","P","None","None","Row","F","***a1_onhold","csv","SQL->IFNULL(CASE WHEN a2.[a1] = '' THEN NULL ELSE CAST (a2.[a1] AS REAL) END,0)","col16"
+"f(x)->IFNULL(CASE WHEN a2.[a2] = '' THEN NULL ELSE CAST (a2.[a2] AS REAL) END,0)","a2_onhold","P","None","None","Row","F","***a2_onhold","csv","SQL->IFNULL(CASE WHEN a2.[a2] = '' THEN NULL ELSE CAST (a2.[a2] AS REAL) END,0)","col17"
+"f(x)->IFNULL(CASE WHEN a2.[a3] = '' THEN NULL ELSE CAST (a2.[a3] AS REAL) END,0)","a3_onhold","P","None","None","Row","F","***a3_onhold","csv","SQL->IFNULL(CASE WHEN a2.[a3] = '' THEN NULL ELSE CAST (a2.[a3] AS REAL) END,0)","col18"
+"f(x)->!!!!!CASE WHEN  {constrain}  = 'BA' THEN   {a1_onhold} /1000!!!!!when  {constrain} = 'BI' then ( {a1_onhold} + {a2_onhold}  )/1000!!!!!when  {constrain} = 'Test'  then ( {a1_onhold} + {a2_onhold} + {a3_onhold} )/1000!!!!!!!!!!ELSE null END","actual_onhold","Y:2","None","None","Row","F","***","@if@1","SQL->!!!!!CASE WHEN  {col6}  = 'BA' THEN   {col16} /1000!!!!!when  {col6} = 'BI' then ( {col16} + {col17}  )/1000!!!!!when  {col6} = 'Test'  then ( {col16} + {col17} + {col18} )/1000!!!!!!!!!!ELSE null END","col20"
+"JOINGRID:"
+"AND","","Sqlite->a0.prodgroup3                                                                                                    : SQL->{col1}","=","Sqlite->a1.prod                                                                                                    : SQL->{col5}",""
+"","","Sqlite->a1.prod                                                                                                    : SQL->{col5}","=","Sqlite->a2.prodgroup3                                                                                                    : SQL->{col19}",""
+"FILTERGRID:"
+
+
+
+
+
+
+
+
+
+
+/END_EMBED
+/EMBED=VG2;Finish
+"VERSION:","1.0"
+"OUTERJOIN:","Yes"
+"UNIONSORT:","No"
+"DISTINCT:","No"
+"QUOTECSV:","No"
+"CTMISSJOIN:","No"
+"EMPTYNULL:","No"
+"TERMINAL:","Yes"
+"OUTENABLED:","Yes"
+"INLINE_VIEW:",""
+"LASTPACKEDEXE:",""
+"EXCEL:","Finish Raw.csv"
+"ROW:","No"
+"EMBED:","Y"
+"INCNESTUTIL:","Y"
+"QUERYROWS:","19"
+"JOINROWS:","2"
+"FILTERROWS:","0"
+"COL_ID_COUNTER:","19"
+"CHART_COUNTER:","0"
+"PIVOTMODE:","0"
+"SQLITESPECIALHDRS:","1"
+"LEGACYPIVOTHDRS:","1"
+"USEPYENGINE:","N"
+"GLOBALS_FILE:",""
+"GLOBAL_VARS:","-1"
+"<---- New Query ---->","1:5:SQL"
+"TABLEGRID:","3"
+"","Finish ConWIP Input.csv a1",""
+"","Full_Lot_Pivot.csv a0",""
+"","Full_Lot_Pivot_onhold.csv a2",""
+"MARSNODE:","Default"
+"ARIESNODE:","Default"
+"OASYSNODE:","Default"
+"ARIESCLASSNODE:","ATD.ARIES"
+"OTHERNODE:","TEXT (SQLite)"
+"MARSSCHEMA:","Default"
+"DATABASETYPE:","SQLite"
+"SINGLENODE:","TEXT (SQLite)"
+"SINGLESCHEMA:","N/A"
+"PROMPT-TEXT:","Fetching Text (SQLite) Data"
+"DISTINCT:","No"
+"ROW:","No"
+"EXCEL:","No"
+"CT_MISS_VAL:","No"
+"PREPROCESS_CSV:","No"
+"NOHDRS:","No"
+"CARTESIAN:","No"
+"<---- New Query ---->","-99"
+"QUERYGRID:"
+"a0.prodgroup3","prodgroup3","Y","None","None","Row","c","","csv","SQL->a0.[prodgroup3]","col1"
+"a0.a4","a4","Y","None","None","Row","c","","csv","SQL->a0.[a4]","col2"
+"a0.a5","a5","Y","None","None","Row","c","","csv","SQL->a0.[a5]","col3"
+"a0.a6","a6","Y","None","None","Row","c","","csv","SQL->a0.[a6]","col4"
+"a1.prod","prod","Y","None","None","Row","c","","csv","SQL->a1.[prod]","col5"
+"a1.constrain","constrain","Y","None","None","Row","c","","csv","SQL->a1.[constrain]","col6"
+"a1.index","index_","Y","None","None","Row","c","","csv","SQL->a1.[index]","col7"
+"a1.future constrain capacity (k/shift)","future constrain capacity (k/shift)","Y","None","None","Row","c","","csv","SQL->a1.[future constrain capacity (k/shift)]","col8"
+"f(x)->target","target","Y","None","None","Row","f","target","csv","SQL->CASE WHEN a1.[target] = '' THEN NULL ELSE CAST (a1.[target] AS REAL) END","col9"
+"f(x)->case when  {constrain} = 'STHI' then  ({a4} + {a4_2} )/1000!!!!!when  {constrain} = 'FUSE' then {a4_2} /1000!!!!!!!!!! when  {constrain} = 'ICOS' then  ( {a5} +{a4}+ {a4_2} )/1000!!!!!!!!!! when  {constrain} = '7399' then  ( {a5} +{a4} + {a4_2}+  {a6}  )/1000!!!!!!!!!!else null!!!!!end","Actual","Y","None","None","Row","N","***","csv","SQL->case when  {col6} = 'STHI' then  ({col2} + {col12} )/1000!!!!!when  {col6} = 'FUSE' then {col12} /1000!!!!!!!!!! when  {col6} = 'ICOS' then  ( {col3} +{col2}+ {col12} )/1000!!!!!!!!!! when  {col6} = '7399' then  ( {col3} +{col2} + {col12}+  {col4}  )/1000!!!!!!!!!!else null!!!!!end","col10"
+"f(x)->lower limit","lower limit","Y","None","None","Row","f","lower limit","csv","SQL->CASE WHEN a1.[lower limit] = '' THEN NULL ELSE CAST (a1.[lower limit] AS REAL) END","col11"
+"a0.a4_2","a4_2","Y","None","None","Row","c","","csv","SQL->a0.[a4_2]","col12"
+"a1.comments","comments","Y","None","None","Row","c","","csv","SQL->a1.[comments]","col13"
+"a2.a4","a4_onhold","Y","None","None","Row","c","","csv","SQL->a2.[a4]","col14"
+"a2.a5","a5_onhold","Y","None","None","Row","c","","csv","SQL->a2.[a5]","col15"
+"a2.a6","a6_onhold","Y","None","None","Row","c","","csv","SQL->a2.[a6]","col16"
+"a2.a4_2","a4_2_onhold","Y","None","None","Row","c","","csv","SQL->a2.[a4_2]","col19"
+"a2.prodgroup3","prodgroup3_1","Y","None","None","Row","c","","csv","SQL->a2.[prodgroup3]","col17"
+"f(x)->case when  {constrain} = 'STHI' then  ( {a4_onhold} + {a4_2_onhold}  )/1000!!!!!when  {constrain} = 'FUSE' then  {a4_2_onhold} /1000!!!!!!!!!! when  {constrain} = 'ICOS' then  (  {a5_onhold} + {a4_onhold} +  {a4_2_onhold}  )/1000!!!!!!!!!! when  {constrain} = '7399' then  (  {a5_onhold}  + {a4_onhold}  +  {a4_2_onhold} +   {a6_onhold}   )/1000!!!!!!!!!!else null!!!!!end","actual_onhold","Y","None","None","Row","C","***","csv","SQL->case when  {col6} = 'STHI' then  ( {col14} + {col19}  )/1000!!!!!when  {col6} = 'FUSE' then  {col19} /1000!!!!!!!!!! when  {col6} = 'ICOS' then  (  {col15} + {col14} +  {col19}  )/1000!!!!!!!!!! when  {col6} = '7399' then  (  {col15}  + {col14}  +  {col19} +   {col16}   )/1000!!!!!!!!!!else null!!!!!end","col18"
+"JOINGRID:"
+"AND","","Sqlite->a0.prodgroup3                                                                                                    : SQL->{col1}","=","Sqlite->a1.prod                                                                                                    : SQL->{col5}",""
+"","","Sqlite->a1.prod                                                                                                    : SQL->{col5}","=","Sqlite->a2.prodgroup3                                                                                                    : SQL->{col17}",""
+"FILTERGRID:"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/END_EMBED
+/EMBED=VG2;Assy_0
+"VERSION:","1.0"
+"OUTERJOIN:","Yes"
+"UNIONSORT:","No"
+"DISTINCT:","No"
+"QUOTECSV:","No"
+"CTMISSJOIN:","No"
+"EMPTYNULL:","No"
+"TERMINAL:","Yes"
+"OUTENABLED:","Yes"
+"INLINE_VIEW:",""
+"LASTPACKEDEXE:",""
+"EXCEL:","Assy.csv"
+"ROW:","No"
+"EMBED:","Y"
+"INCNESTUTIL:","Y"
+"QUERYROWS:","11"
+"JOINROWS:","0"
+"FILTERROWS:","2"
+"COL_ID_COUNTER:","11"
+"CHART_COUNTER:","0"
+"PIVOTMODE:","0"
+"SQLITESPECIALHDRS:","1"
+"LEGACYPIVOTHDRS:","1"
+"USEPYENGINE:","N"
+"GLOBALS_FILE:",""
+"GLOBAL_VARS:","-1"
+"<---- New Query ---->","1:5:SQL"
+"TABLEGRID:","1"
+"","Assy Raw.csv a0",""
+"MARSNODE:","Default"
+"ARIESNODE:","Default"
+"OASYSNODE:","Default"
+"ARIESCLASSNODE:","ATD.ARIES"
+"OTHERNODE:","TEXT (SQLite)"
+"MARSSCHEMA:","Default"
+"DATABASETYPE:","SQLite"
+"SINGLENODE:","TEXT (SQLite)"
+"SINGLESCHEMA:","N/A"
+"PROMPT-TEXT:","Fetching Text (SQLite) Data"
+"DISTINCT:","No"
+"ROW:","No"
+"EXCEL:","No"
+"CT_MISS_VAL:","No"
+"PREPROCESS_CSV:","No"
+"NOHDRS:","No"
+"CARTESIAN:","No"
+"<---- New Query ---->","-99"
+"QUERYGRID:"
+"a0.prodgroup3","prodgroup3","Y","None","None","Row","c","","csv","SQL->a0.[prodgroup3]","col1"
+"a0.constrain","constrain","Y","None","None","Row","c","","csv","SQL->a0.[constrain]","col2"
+"a0.constrain capacity (k/shift)","constrain capacity (k/shift)","Y","None","None","Row","c","","csv","SQL->a0.[constrain capacity (k/shift)]","col3"
+"f(x)->conwip target","conwip target","Y","None","None","Row","f","conwip target","csv","SQL->CASE WHEN a0.[conwip target] = '' THEN NULL ELSE CAST (a0.[conwip target] AS REAL) END","col4"
+"f(x)->actual","actual1","P","None","None","Row","f","actual","csv","SQL->CASE WHEN a0.[actual] = '' THEN NULL ELSE CAST (a0.[actual] AS REAL) END","col5"
+"f(x)->{actual1} - {actual_onhold}","actual","Y","None","None","Row","F","***","@if@1","SQL->{col5} - {col10}","col11"
+"f(x)->lower limit","lower limit","Y","None","None","Row","f","lower limit","csv","SQL->CASE WHEN a0.[lower limit] = '' THEN NULL ELSE CAST (a0.[lower limit] AS REAL) END","col6"
+"f(x)->case when   {actual} - {conwip target} >0 then 'Overbuild'!!!!!when   {actual} < {lower limit} then 'Underbuild'!!!!!else 'Healthy'!!!!!End","test","Y","None","None","Row","C","***","@if@2","SQL->case when   {col11} - {col4} >0 then 'Overbuild'!!!!!when   {col11} < {col6} then 'Underbuild'!!!!!else 'Healthy'!!!!!End","col7"
+"a0.test_wip","test_wip","Y","None","None","Row","c","","csv","SQL->a0.[test_wip]","col8"
+"a0.comments","comments","Y","None","None","Row","c","","csv","SQL->a0.[comments]","col9"
+"f(x)->IFNULL(CASE WHEN a0.[actual_onhold] = '' THEN NULL ELSE CAST (a0.[actual_onhold] AS REAL) END,0)","actual_onhold","Y","None","None","Row","F","***actual_onhold","csv","SQL->IFNULL(CASE WHEN a0.[actual_onhold] = '' THEN NULL ELSE CAST (a0.[actual_onhold] AS REAL) END,0)","col10"
+"JOINGRID:"
+"FILTERGRID:"
+"-- AND","","a0.prodgroup3","In","'SKLU22'</comma\>'SPT'","","","c","csv","SQL->a0.[prodgroup3]",""
+"AND","","f(x)->lower limit","Is Not Null","","","","f","csv","SQL->CASE WHEN a0.[lower limit] = '' THEN NULL ELSE CAST (a0.[lower limit] AS REAL) END",""
+
+
+
+
+
+
+
+
+
+
+/END_EMBED
+/EMBED=VG2;Finish_0
+"VERSION:","1.0"
+"OUTERJOIN:","Yes"
+"UNIONSORT:","No"
+"DISTINCT:","No"
+"QUOTECSV:","No"
+"CTMISSJOIN:","No"
+"EMPTYNULL:","No"
+"TERMINAL:","Yes"
+"OUTENABLED:","Yes"
+"INLINE_VIEW:",""
+"LASTPACKEDEXE:",""
+"EXCEL:","Finish.csv"
+"ROW:","No"
+"EMBED:","Y"
+"INCNESTUTIL:","Y"
+"QUERYROWS:","10"
+"JOINROWS:","0"
+"FILTERROWS:","2"
+"COL_ID_COUNTER:","10"
+"CHART_COUNTER:","0"
+"PIVOTMODE:","0"
+"SQLITESPECIALHDRS:","1"
+"LEGACYPIVOTHDRS:","1"
+"USEPYENGINE:","N"
+"GLOBALS_FILE:",""
+"GLOBAL_VARS:","-1"
+"<---- New Query ---->","1:5:SQL"
+"TABLEGRID:","1"
+"","Finish Raw.csv a0",""
+"MARSNODE:","Default"
+"ARIESNODE:","Default"
+"OASYSNODE:","Default"
+"ARIESCLASSNODE:","ATD.ARIES"
+"OTHERNODE:","TEXT (SQLite)"
+"MARSSCHEMA:","Default"
+"DATABASETYPE:","SQLite"
+"SINGLENODE:","TEXT (SQLite)"
+"SINGLESCHEMA:","N/A"
+"PROMPT-TEXT:","Fetching Text (SQLite) Data"
+"DISTINCT:","No"
+"ROW:","No"
+"EXCEL:","No"
+"CT_MISS_VAL:","No"
+"PREPROCESS_CSV:","No"
+"NOHDRS:","No"
+"CARTESIAN:","No"
+"<---- New Query ---->","5:3:UTILITIES"
+"UTILITIES:","U->Copy:Y@EXEDIR@\SPFCopy.bat <~>Finish.csv<~> <~>\\cdATSHFS.intel.com\CDATAnalysis$\MAOATM\WangQi4\<~> <~>N<~>"
+"UTILITIESDESC:","Copy Files/Folders"
+"<---- New Query ---->","-99"
+"QUERYGRID:"
+"a0.prodgroup3","prodgroup3","Y","None","None","Row","c","","csv","SQL->a0.[prodgroup3]","col1"
+"a0.constrain","constrain","Y","None","None","Row","c","","csv","SQL->a0.[constrain]","col2"
+"a0.future constrain capacity (k/shift)","future constrain capacity (k/shift)","Y","None","None","Row","c","","csv","SQL->a0.[future constrain capacity (k/shift)]","col3"
+"f(x)->target","target","Y","None","None","Row","f","target","csv","SQL->CASE WHEN a0.[target] = '' THEN NULL ELSE CAST (a0.[target] AS REAL) END","col4"
+"f(x)->actual","actual1","P","None","None","Row","f","actual","csv","SQL->CASE WHEN CASE WHEN a0.[actual] = '' THEN NULL ELSE CAST (a0.[actual] AS REAL) END = '' THEN NULL ELSE CAST (CASE WHEN a0.[actual] = '' THEN NULL ELSE CAST (a0.[actual] AS REAL) END AS REAL) END","col5"
+"f(x)->{actual1} - {actual_onhold}","actual","Y","None","None","Row","F","***","@if@1","SQL->{col5} - {col9}","col10"
+"f(x)->lower limit","lower limit","Y","None","None","Row","f","lower limit","csv","SQL->CASE WHEN a0.[lower limit] = '' THEN NULL ELSE CAST (a0.[lower limit] AS REAL) END","col6"
+"f(x)->case when   {actual} > {target}  then 'Overbuild'!!!!!when   {actual} < {lower limit} then 'Underbuild'!!!!!else 'Healthy'!!!!!end","test","Y","None","None","Row","C","***","@if@2","SQL->case when   {col10} > {col4}  then 'Overbuild'!!!!!when   {col10} < {col6} then 'Underbuild'!!!!!else 'Healthy'!!!!!end","col7"
+"a0.comments","comments","Y","None","None","Row","c","","csv","SQL->a0.[comments]","col8"
+"f(x)->IFNULL(CASE WHEN a0.[actual_onhold] = '' THEN NULL ELSE CAST (a0.[actual_onhold] AS REAL) END,0)","actual_onhold","Y:2","None","None","Row","F","***actual_onhold","csv","SQL->IFNULL(CASE WHEN a0.[actual_onhold] = '' THEN NULL ELSE CAST (a0.[actual_onhold] AS REAL) END,0)","col9"
+"JOINGRID:"
+"FILTERGRID:"
+"-- AND","","a0.prodgroup3","In","'SKLU22'</comma\>'SPT'","","","c","csv","SQL->a0.[prodgroup3]",""
+"AND","","f(x)->lower limit","Is Not Null","","","","f","csv","SQL->CASE WHEN a0.[lower limit] = '' THEN NULL ELSE CAST (a0.[lower limit] AS REAL) END",""
+
+
+
+
+
+
+
+
+
+/END_EMBED
+/EMBED=VG2;conwipsum
+"VERSION:","1.0"
+"OUTERJOIN:","Yes"
+"UNIONSORT:","No"
+"DISTINCT:","No"
+"QUOTECSV:","No"
+"EMPTYNULL:","No"
+"TERMINAL:","Yes"
+"INLINE_VIEW:",""
+"LASTPACKEDEXE:",""
+"EXCEL:","conWipf.csv"
+"ROW:","No"
+"EMBED:","Y"
+"QUERYROWS:","8"
+"JOINROWS:","0"
+"FILTERROWS:","0"
+"COL_ID_COUNTER:","8"
+"CHART_COUNTER:","0"
+"PIVOTMODE:","0"
+"JOINHADOOP:","0"
+"SQLITESPECIALHDRS:","1"
+"INTMPSQLITE:","0"
+"GLOBALS_FILE:",""
+"GLOBAL_VARS:","-1"
+"<---- New Query ---->","1:5:SQL"
+"TABLEGRID:","1"
+"","Assy.csv a0",""
+"MARSNODE:","Default"
+"ARIESNODE:","Default"
+"OASYSNODE:","Default"
+"ARIESCLASSNODE:","ATD.ARIES"
+"OTHERNODE:","TEXT (SQLite)"
+"MARSSCHEMA:","Default"
+"DATABASETYPE:","SQLite"
+"SINGLENODE:","TEXT (SQLite)"
+"SINGLESCHEMA:","N/A"
+"PROMPT-TEXT:","Fetching Text (SQLite) Data"
+"DISTINCT:","No"
+"ROW:","No"
+"EXCEL:","No"
+"CT_MISS_VAL:","No"
+"PREPROCESS_CSV:","No"
+"NOHDRS:","No"
+"CARTESIAN:","No"
+"<---- New Query ---->","-99"
+"QUERYGRID:"
+"a0.prodgroup3","prodgroup3","Y","None","None","Row","c","","csv","SQL->a0.[prodgroup3]","col1"
+"a0.constrain","constrain","Y","None","None","Row","c","","csv","SQL->a0.[constrain]","col2"
+"a0.constrain capacity (k/shift)","constrain capacity (k/shift)","Y","None","None","Row","c","","csv","SQL->a0.[constrain capacity (k/shift)]","col3"
+"a0.conwip target","conwip target","Y","None","None","Row","c","","csv","SQL->a0.[conwip target]","col4"
+"a0.actual","actual","Y","None","None","Row","c","","csv","SQL->a0.[actual]","col5"
+"a0.lower limit","lower limit","Y","None","None","Row","c","","csv","SQL->a0.[lower limit]","col6"
+"a0.test","test","Y","None","None","Row","c","","csv","SQL->a0.[test]","col7"
+"f(x)->Datetime('now','localtime')","sysdate1","Y","None","None","Row","H","***","","SQL->Datetime('now','localtime')","col8"
+"JOINGRID:"
+"FILTERGRID:"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/END_EMBED
+/EMBED=VG2;Cure Data
+"VERSION:","1.0"
+"OUTERJOIN:","Yes"
+"UNIONSORT:","No"
+"DISTINCT:","No"
+"QUOTECSV:","No"
+"CTMISSJOIN:","No"
+"EMPTYNULL:","No"
+"TERMINAL:","Yes"
+"OUTENABLED:","Yes"
+"INLINE_VIEW:",""
+"LASTPACKEDEXE:",""
+"EXCEL:","DSA_Cure_WIP_Monitor.tab"
+"ROW:","No"
+"EMBED:","Y"
+"INCNESTUTIL:","Y"
+"QUERYROWS:","12"
+"JOINROWS:","0"
+"FILTERROWS:","4"
+"COL_ID_COUNTER:","16"
+"CHART_COUNTER:","4"
+"PIVOTMODE:","0"
+"SQLITESPECIALHDRS:","1"
+"LEGACYPIVOTHDRS:","1"
+"USEPYENGINE:","N"
+"GLOBALS_FILE:",""
+"GLOBAL_VARS:","-1"
+"<---- New Query ---->","2:0:a0"
+"TABLEGRID:","1"
+"","F_Lot_Status_22",""
+"MARSNODE:","CD.[A48_PROD_21.].MARS"
+"ARIESNODE:","Default"
+"OASYSNODE:","Default"
+"ARIESCLASSNODE:","ATD.ARIES"
+"OTHERNODE:","Default"
+"MARSSCHEMA:","@[]@"
+"DATABASETYPE:","Oracle"
+"SINGLENODE:","CD.[A48_PROD_21.].MARS"
+"SINGLESCHEMA:","@[]@"
+"PROMPT-TEXT:","Fetching MARS Data"
+"DISTINCT:","No"
+"ROW:","No"
+"EXCEL:","No"
+"CT_MISS_VAL:","No"
+"FIRST_ROWS:","No"
+"ORDERED:","No"
+"OTHER-HINT:","No"
+"<---- New Query ---->","-99"
+"QUERYGRID:"
+"f(a0)->'DSA_Cure'","Location","Y","None","None","Row","C","***","@if@1","a0->'DSA_Cure'","col14"
+"a0.operation","operation","Y","None","None","Row","c","The current operation (or processing step) the lot is at","f_lot","a0->f0.operation","col2"
+"f(a0)->'60'","WIP_lower_limit","Y","None","None","Row","C","***","@if@1","a0->'60'","col15"
+"f(a0)->'100'","WIP_Max","Y","None","None","Row","C","***","@if@1","a0->'100'","col16"
+"a0.lot","lot","Y","None","Count","Row","c","Identifies a batch of wafers or units being processed in the factory. The basic format of the Lot number is:  FYWWNNNN where F=fab code, Y=year, WW=workweek, NNNN= sequence, with the 9th or 10th characters as alphanumeric. In Fab, Etest and Sort, a quantity that has a wafer as an unit of measure and the physical form that passes through the factory. A lot starting the Fab process contains up to 25 wafers and can be split into child lots of varying sizes, and wafer losses can also occur. New lots are also created to split lots due to varying characteristics, such as speed or rework, for a portion of the lot. In some 200mm fabs production lots, the lot number uses a silicon vendor ID in the 8th character","f_lot","a0->f0.lot","col1"
+"a0.route","route","N","None","None","Row","c","The current route the lot is on. In FAB300, this refers to the 2nd highest level in the process structure or level 3.","f_lot","a0->f0.route","col3"
+"a0.quantity","quantity","P","None","Sum","Row","n","The current number of units or wafers or panels in the lot","f_lot","a0->f0.qty1","col4"
+"a0.product","product","N","None","None","Row","c","The current product associated with the lot","f_lot","a0->f0.product","col5"
+"a0.date_entered_operation","date_entered_operation","P","None","None","Row","d","The date and time the lot arrived at the current operation","f_lot","a0->f0.date_entered_operation","col6"
+"a0.movein_date","movein_date","P","None","None","Row","d","The date and time the lot was moved into the current operation. Usually denotes when processing started on the lot","f_lot","a0->f0.movein_date","col7"
+"a0.onhold","onhold","P","None","None","Row","c","Flag indicating if the lot is currently on hold. Y means the lot is on hold and N means the lot is not on hold.","f_lot","a0->f0.onhold","col9"
+"f(a0)->{quantity} /1000","Qty_Ku","Y:1","None","Sum","Row","N","***","f_lot","a0->{col4} /1000","col13"
+"JOINGRID:"
+"FILTERGRID:"
+"AND","","a0.terminated","=","'N'","","","c","f_lot","a0->f0.terminated",""
+"AND","","a0.quantity",">","0","","","n","f_lot","a0->f0.qty1",""
+"AND","","a0.src_erase_date","Is Null","","","","d","f_lot","a0->f0.src_erase_date",""
+"AND","","a0.operation","=","'1173'","","","c","f_lot","a0->f0.operation",""
+
+
+
+
+
+/END_EMBED
+/EMBED=VG2;EPXY AND CURE DATA
+"VERSION:","1.0"
+"OUTERJOIN:","Yes"
+"UNIONSORT:","No"
+"DISTINCT:","No"
+"QUOTECSV:","No"
+"CTMISSJOIN:","No"
+"EMPTYNULL:","No"
+"TERMINAL:","Yes"
+"OUTENABLED:","Yes"
+"INLINE_VIEW:",""
+"LASTPACKEDEXE:",""
+"EXCEL:","EPX_Cure_WIP_Monitor.tab"
+"ROW:","No"
+"EMBED:","Y"
+"INCNESTUTIL:","Y"
+"QUERYROWS:","12"
+"JOINROWS:","0"
+"FILTERROWS:","4"
+"COL_ID_COUNTER:","17"
+"CHART_COUNTER:","0"
+"PIVOTMODE:","0"
+"SQLITESPECIALHDRS:","1"
+"LEGACYPIVOTHDRS:","1"
+"USEPYENGINE:","N"
+"GLOBALS_FILE:",""
+"GLOBAL_VARS:","-1"
+"<---- New Query ---->","2:0:a0"
+"TABLEGRID:","1"
+"","F_Lot_Status_22",""
+"MARSNODE:","CD.[A48_PROD_21.].MARS"
+"ARIESNODE:","Default"
+"OASYSNODE:","Default"
+"ARIESCLASSNODE:","ATD.ARIES"
+"OTHERNODE:","Default"
+"MARSSCHEMA:","@[]@"
+"DATABASETYPE:","Oracle"
+"SINGLENODE:","CD.[A48_PROD_21.].MARS"
+"SINGLESCHEMA:","@[]@"
+"PROMPT-TEXT:","Fetching MARS Data"
+"DISTINCT:","No"
+"ROW:","No"
+"EXCEL:","No"
+"CT_MISS_VAL:","No"
+"FIRST_ROWS:","No"
+"ORDERED:","No"
+"OTHER-HINT:","No"
+"<---- New Query ---->","-99"
+"QUERYGRID:"
+"f(a0)->'EPX_Cure'","Location","Y","None","None","Row","C","***","@if@1","a0->'EPX_Cure'","col16"
+"f(a0)->CASE WHEN  {operation}='1429'  THEN '1235' ELSE '1235' END","Operation_1","Y","None","None","Row","C","***","f_lot","a0->CASE WHEN  {col2}='1429'  THEN '1235' ELSE '1235' END","col17"
+"a0.operation","operation","P","None","None","Row","c","The current operation (or processing step) the lot is at","f_lot","a0->f0.operation","col2"
+"a0.quantity","quantity","P","None","Sum","Row","n","The current number of units or wafers or panels in the lot","f_lot","a0->f0.qty1","col4"
+"a0.date_entered_operation","date_entered_operation","P","None","None","Row","d","The date and time the lot arrived at the current operation","f_lot","a0->f0.date_entered_operation","col6"
+"a0.movein_date","movein_date","P","None","None","Row","d","The date and time the lot was moved into the current operation. Usually denotes when processing started on the lot","f_lot","a0->f0.movein_date","col7"
+"a0.terminated","terminated","P","None","None","Row","c","Indicates whether the lot is terminated in this facility either because the lot has completed processing or because the lot has been scrapped due to losses. Y means the lot has been terminated.","f_lot","a0->f0.terminated","col11"
+"a0.movedin","movedin","P","None","None","Row","c","Indicates if a move in transaction has been performed at the current operation. Y means a moved in transaction has been performed.","f_lot","a0->f0.movedin","col12"
+"f(a0)->'45'","WIP_Lower_Limit","Y","None","None","Row","C","***","@if@1","a0->'45'","col13"
+"f(a0)->'70'","WIP_Max","Y","None","None","Row","C","***","@if@1","a0->'70'","col14"
+"a0.lot","lot","Y","None","Count","Row","c","Identifies a batch of wafers or units being processed in the factory. The basic format of the Lot number is:  FYWWNNNN where F=fab code, Y=year, WW=workweek, NNNN= sequence, with the 9th or 10th characters as alphanumeric. In Fab, Etest and Sort, a quantity that has a wafer as an unit of measure and the physical form that passes through the factory. A lot starting the Fab process contains up to 25 wafers and can be split into child lots of varying sizes, and wafer losses can also occur. New lots are also created to split lots due to varying characteristics, such as speed or rework, for a portion of the lot. In some 200mm fabs production lots, the lot number uses a silicon vendor ID in the 8th character","f_lot","a0->f0.lot","col1"
+"f(a0)->{quantity} /1000","Qty_Ku","Y:1","None","Sum","Row","N","***","@if@1","a0->{col4} /1000","col15"
+"JOINGRID:"
+"FILTERGRID:"
+"AND","","a0.terminated","=","'N'","","","c","f_lot","a0->f0.terminated",""
+"AND","","a0.quantity",">","0","","","n","f_lot","a0->f0.qty1",""
+"AND","","a0.src_erase_date","Is Null","","","","d","f_lot","a0->f0.src_erase_date",""
+"AND","","a0.operation","In","'1235'</comma\>'1429'","","","c","f_lot","a0->f0.operation",""
+
+
+
+
+
+/END_EMBED
+/EMBED=VG2;PrePostQuery_8
+"VERSION:","1.0"
+"OUTERJOIN:","Yes"
+"UNIONSORT:","No"
+"DISTINCT:","No"
+"QUOTECSV:","No"
+"CTMISSJOIN:","No"
+"EMPTYNULL:","No"
+"TERMINAL:","Yes"
+"OUTENABLED:","Yes"
+"INLINE_VIEW:",""
+"LASTPACKEDEXE:",""
+"EXCEL:","Full_Lot_Pivot_onhold.csv"
+"ROW:","No"
+"EMBED:","Y"
+"INCNESTUTIL:","Y"
+"QUERYROWS:","6"
+"JOINROWS:","0"
+"FILTERROWS:","3"
+"COL_ID_COUNTER:","6"
+"CHART_COUNTER:","0"
+"PIVOTMODE:","0"
+"SQLITESPECIALHDRS:","1"
+"LEGACYPIVOTHDRS:","1"
+"USEPYENGINE:","N"
+"GLOBALS_FILE:",""
+"GLOBAL_VARS:","-1"
+"<---- New Query ---->","1:5:SQL"
+"TABLEGRID:","1"
+"","Full_Lot.csv a0",""
+"MARSNODE:","Default"
+"ARIESNODE:","Default"
+"OASYSNODE:","Default"
+"ARIESCLASSNODE:","ATD.ARIES"
+"OTHERNODE:","TEXT (SQLite)"
+"MARSSCHEMA:","Default"
+"DATABASETYPE:","SQLite"
+"SINGLENODE:","TEXT (SQLite)"
+"SINGLESCHEMA:","N/A"
+"PROMPT-TEXT:","Fetching Text (SQLite) Data"
+"DISTINCT:","No"
+"ROW:","No"
+"EXCEL:","No"
+"CT_MISS_VAL:","No"
+"PREPROCESS_CSV:","No"
+"NOHDRS:","No"
+"CARTESIAN:","No"
+"<---- New Query ---->","-99"
+"QUERYGRID:"
+"a0.operation","operation","N","None","None","Row","c","","csv","SQL->a0.[operation]","col1"
+"a0.lot","lot","N","None","None","Row","c","","csv","SQL->a0.[lot]","col2"
+"f(x)->quantity","quantity","Y","None","Sum","Value","f","quantity","csv","SQL->CASE WHEN a0.[quantity] = '' THEN NULL ELSE CAST (a0.[quantity] AS REAL) END","col3"
+"f(x)->CASE WHEN a0.[prodgroup3] in  ('KBLU22','SKLU22') THEN 'SKL/KBLU22' ELSE CAST (a0.[prodgroup3] AS TEXT) END","prodgroup3","Y","None","None","Row","C","***prodgroup3","csv","SQL->CASE WHEN a0.[prodgroup3] in  ('KBLU22','SKLU22') THEN 'SKL/KBLU22' ELSE CAST (a0.[prodgroup3] AS TEXT) END","col4"
+"a0.grouping","grouping","N","None","None","Row","c","","csv","SQL->a0.[grouping]","col5"
+"a0.area","area","Y","None","None","Header","c","","csv","SQL->a0.[area]","col6"
+"JOINGRID:"
+"FILTERGRID:"
+"-- AND","","a0.prodgroup3","In Group",".\ConWIP Input.csv:1. Prod","","","c","csv","SQL->a0.[prodgroup3]",""
+"-- OR","","a0.prodgroup3","In Group",".\Finish ConWIP Input.csv:1. Prod","","","c","csv","SQL->a0.[prodgroup3]",""
+"AND","","a0.onhold","!=","'N'","","","c","csv","SQL->a0.[onhold]",""
+
+
+
+
+
+
+
+
+
+
+
+
+/END_EMBED
+/END_EMBED_ALL
